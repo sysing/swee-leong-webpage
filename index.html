@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Swee Leong — Personal Website</title>
+    <meta name="description" content="Personal academic homepage for Swee Leong." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">Swee Leong</a>
+        <nav class="nav">
+          <a href="#research">Research</a>
+          <a href="#publications">Publications</a>
+          <a href="#teaching">Teaching</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-grid">
+            <div>
+              <h1>Hello, I’m <span class="accent">Swee Leong</span>.</h1>
+              <p class="lead">
+                This is a minimal academic homepage. Replace the placeholder text with your real bio, affiliations, and interests.
+              </p>
+              <div class="cta-row">
+                <a class="btn primary" href="#publications">View publications</a>
+                <a class="btn" href="#contact">Get in touch</a>
+              </div>
+            </div>
+            <div class="portrait">
+              <div class="avatar" aria-hidden="true"></div>
+              <p class="caption">Optional headshot — place an image at <code>assets/img/profile.jpg</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="research" class="section">
+        <div class="container">
+          <h2>Research</h2>
+          <p>
+            Briefly describe your research areas and current projects. Keep it short on the home page and link to project pages or papers.
+          </p>
+          <ul class="cards">
+            <li class="card">
+              <h3>Project A</h3>
+              <p>1–2 sentence summary with a link to paper/code if available.</p>
+              <p><a href="#">Learn more →</a></p>
+            </li>
+            <li class="card">
+              <h3>Project B</h3>
+              <p>1–2 sentence summary highlighting impact or novelty.</p>
+              <p><a href="#">Learn more →</a></p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="publications" class="section alt">
+        <div class="container">
+          <h2>Selected Publications</h2>
+          <ol class="pub-list">
+            <li>
+              <span class="pub-title">Paper Title One</span>
+              <span class="pub-authors">Author A, Author B, <strong>S. Leong</strong></span>
+              <span class="pub-venue">Conference/Journal, 20XX</span>
+              <span class="pub-links"><a href="#">paper</a> · <a href="#">code</a></span>
+            </li>
+            <li>
+              <span class="pub-title">Paper Title Two</span>
+              <span class="pub-authors">Author A, <strong>S. Leong</strong>, Author C</span>
+              <span class="pub-venue">Conference/Journal, 20XX</span>
+              <span class="pub-links"><a href="#">paper</a> · <a href="#">slides</a></span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="teaching" class="section">
+        <div class="container">
+          <h2>Teaching</h2>
+          <ul>
+            <li>Course 101 — Term Year — Role</li>
+            <li>Course 202 — Term Year — Role</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="container">
+          <h2>Contact</h2>
+          <p>Email: <a href="mailto:you@example.com">you@example.com</a></p>
+          <p>
+            <a href="https://scholar.google.com" target="_blank" rel="noreferrer noopener">Google Scholar</a>
+            · <a href="https://github.com/sysing" target="_blank" rel="noreferrer noopener">GitHub</a>
+            · <a href="https://www.linkedin.com" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> Swee Leong. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
