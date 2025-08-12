@@ -1,48 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Project Index</title>
-  <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; margin: 40px; line-height: 1.6; }
-    a { color: #2563eb; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
-  </style>
-  <meta name="robots" content="noindex" />
-  </head>
-<body>
-  <h1>Swee Leong Website Workspace</h1>
-  <p>Select a variant:</p>
-  <ul>
-    <li><a href="docs/">Default site (deployed via GitHub Pages /docs)</a></li>
-    <li><a href="yeong-like/">Yeong-like design demo (placeholder content)</a></li>
-    <li><a href="fancy/">Fancy variant with 3D printing scroll progress indicator</a></li>
-  </ul>
-  <p>This index is not meant for deployment; Pages should point to <code>/docs</code>.</p>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Swee Leong — Personal Website</title>
-    <meta name="description" content="Personal academic homepage for Swee Leong." />
+    <title>Swee Leong — Personal Website (Fancy Variant)</title>
+    <meta name="description" content="Personal academic homepage for Swee Leong with scroll progress indicator." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="assets/js/scroll-progress.js"></script>
   </head>
   <body>
     <header class="site-header">
       <div class="container header-inner">
-  <a class="brand" href="./">Swee Leong</a>
+        <a class="brand" href="./">Swee Leong</a>
         <nav class="nav">
           <a href="#research">Research</a>
           <a href="#publications">Publications</a>
           <a href="#teaching">Teaching</a>
           <a href="#contact">Contact</a>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+            <span class="theme-icon">🌙</span>
+          </button>
         </nav>
       </div>
     </header>
@@ -52,9 +32,9 @@
         <div class="container">
           <div class="hero-grid">
             <div>
-              <h1>Hello, I’m <span class="accent">Swee Leong</span>.</h1>
+              <h1>Hello, I'm <span class="accent">Swee Leong</span>.</h1>
               <p class="lead">
-                This is a minimal academic homepage. Replace the placeholder text with your real bio, affiliations, and interests.
+                This is a fancy academic homepage with an interactive scroll progress indicator featuring 3D printing animations. The page adapts to your scrolling and supports both light and dark modes.
               </p>
               <div class="cta-row">
                 <a class="btn primary" href="#publications">View publications</a>
@@ -77,13 +57,18 @@
           </p>
           <ul class="cards">
             <li class="card">
-              <h3>Project A</h3>
-              <p>1–2 sentence summary with a link to paper/code if available.</p>
+              <h3>3D Printing Technologies</h3>
+              <p>Innovative approaches to additive manufacturing with focus on precision and material efficiency.</p>
               <p><a href="#">Learn more →</a></p>
             </li>
             <li class="card">
-              <h3>Project B</h3>
-              <p>1–2 sentence summary highlighting impact or novelty.</p>
+              <h3>Digital Fabrication</h3>
+              <p>Exploring the intersection of digital design and physical manufacturing processes.</p>
+              <p><a href="#">Learn more →</a></p>
+            </li>
+            <li class="card">
+              <h3>Material Science</h3>
+              <p>Research into novel materials for next-generation manufacturing applications.</p>
               <p><a href="#">Learn more →</a></p>
             </li>
           </ul>
@@ -95,16 +80,22 @@
           <h2>Selected Publications</h2>
           <ol class="pub-list">
             <li>
-              <span class="pub-title">Paper Title One</span>
+              <span class="pub-title">Advanced 3D Printing Techniques for Precision Manufacturing</span>
               <span class="pub-authors">Author A, Author B, <strong>S. Leong</strong></span>
-              <span class="pub-venue">Conference/Journal, 20XX</span>
+              <span class="pub-venue">Conference on Additive Manufacturing, 2024</span>
               <span class="pub-links"><a href="#">paper</a> · <a href="#">code</a></span>
             </li>
             <li>
-              <span class="pub-title">Paper Title Two</span>
+              <span class="pub-title">Digital Fabrication in Academic Research</span>
               <span class="pub-authors">Author A, <strong>S. Leong</strong>, Author C</span>
-              <span class="pub-venue">Conference/Journal, 20XX</span>
+              <span class="pub-venue">Journal of Manufacturing Science, 2024</span>
               <span class="pub-links"><a href="#">paper</a> · <a href="#">slides</a></span>
+            </li>
+            <li>
+              <span class="pub-title">Material Innovations in 3D Printing</span>
+              <span class="pub-authors"><strong>S. Leong</strong>, Author D, Author E</span>
+              <span class="pub-venue">Materials Research Conference, 2023</span>
+              <span class="pub-links"><a href="#">paper</a> · <a href="#">demo</a></span>
             </li>
           </ol>
         </div>
@@ -114,8 +105,9 @@
         <div class="container">
           <h2>Teaching</h2>
           <ul>
-            <li>Course 101 — Term Year — Role</li>
-            <li>Course 202 — Term Year — Role</li>
+            <li>Advanced Manufacturing — Spring 2024 — Instructor</li>
+            <li>Digital Fabrication — Fall 2023 — Teaching Assistant</li>
+            <li>3D Printing Workshop — Summer 2023 — Workshop Leader</li>
           </ul>
         </div>
       </section>
@@ -138,6 +130,27 @@
         <p>© <span id="year"></span> Swee Leong. All rights reserved.</p>
       </div>
     </footer>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-container" id="scroll-progress">
+      <div class="scroll-progress-wrapper">
+        <div class="progress-ring">
+          <svg class="progress-ring-svg" width="80" height="80">
+            <circle class="progress-ring-background" cx="40" cy="40" r="36"></circle>
+            <circle class="progress-ring-progress" cx="40" cy="40" r="36"></circle>
+          </svg>
+          <div class="printer-animation">
+            <div class="printer-body">
+              <div class="printer-head"></div>
+              <div class="filament-line"></div>
+            </div>
+          </div>
+        </div>
+        <div class="progress-text">
+          <span id="progress-percentage">0%</span>
+        </div>
+      </div>
+    </div>
 
     <script>
       document.getElementById('year').textContent = new Date().getFullYear();
