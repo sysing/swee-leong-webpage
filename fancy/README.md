@@ -4,10 +4,11 @@ This directory contains the "fancy" variant of the Swee Leong webpage featuring 
 
 ## Features
 
-- **Circular Progress Bar**: Shows scroll percentage as user navigates through the page
-- **3D Printing Animation**: Animated printer icon with moving head and filament feed
-- **Light/Dark Mode Support**: Fully responsive theme switching with automatic color adaptation
-- **Smooth Interactions**: Optimized animations and hover effects
+- **Circular Progress Ring**: Visual scroll progress indicator without percentage text
+- **Enhanced 3D Printing Animation**: Detailed printer with moving head, filament feed, and growing printed object
+- **Light Mode Default**: Clean light mode appearance with dark mode toggle support
+- **Scroll-Based Object Printing**: Printed object grows progressively as user scrolls through content
+- **Smooth Interactions**: Optimized animations and hover effects with scroll-responsive animation speeds
 - **Accessibility**: Keyboard navigation support and proper ARIA labels
 - **Responsive Design**: Adapts to different screen sizes
 
@@ -112,10 +113,12 @@ To add more 3D printing elements, modify the HTML structure in `index.html`:
   <div class="printer-body">
     <div class="printer-head"></div>
     <div class="filament-line"></div>
-    <!-- Add new elements here -->
-    <div class="build-platform"></div>
-    <div class="extruder-nozzle"></div>
   </div>
+  <div class="build-platform">
+    <div class="printed-object"></div>
+  </div>
+  <!-- Add new elements here -->
+  <div class="extruder-nozzle"></div>
 </div>
 ```
 
