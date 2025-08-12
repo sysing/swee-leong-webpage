@@ -11,7 +11,6 @@ class ScrollProgressIndicator {
   constructor() {
     this.progressContainer = document.getElementById('scroll-progress');
     this.progressRing = document.querySelector('.progress-ring-progress');
-    this.progressText = document.getElementById('progress-percentage');
     this.themeToggle = document.getElementById('theme-toggle');
     
     this.circumference = 2 * Math.PI * 36; // radius is 36
@@ -88,9 +87,6 @@ class ScrollProgressIndicator {
     const offset = this.circumference - (scrollPercentage / 100) * this.circumference;
     this.progressRing.style.strokeDashoffset = offset;
     
-    // Update percentage text
-    this.progressText.textContent = `${Math.round(scrollPercentage)}%`;
-    
     // Add extra animation effects based on scroll speed
     this.animatePrinterBasedOnScroll(scrollPercentage);
   }
@@ -98,8 +94,9 @@ class ScrollProgressIndicator {
   animatePrinterBasedOnScroll(percentage) {
     const printerBody = document.querySelector('.printer-body');
     const filamentLine = document.querySelector('.filament-line');
+    const printedObject = document.querySelector('.printed-object');
     
-    if (!printerBody || !filamentLine) return;
+    if (!printerBody || !filamentLine || !printedObject) return;
     
     // Adjust animation speed based on scroll percentage
     const animationSpeed = Math.max(0.5, 2 - (percentage / 50));
@@ -109,8 +106,12 @@ class ScrollProgressIndicator {
     const filamentHeight = Math.min(15, 8 + (percentage / 10));
     filamentLine.style.setProperty('--filament-height', `${filamentHeight}px`);
     
+    // Grow the printed object based on scroll progress
+    const objectHeight = Math.min(8, (percentage / 100) * 8);
+    printedObject.style.height = `${objectHeight}px`;
+    
     // Add subtle color changes based on progress
-    const hue = 200 + (percentage * 1.6); // Blue to cyan transition
+    const hue = 200 + (percentage * 1.6); // Blue to cyan transition for light mode
     this.progressRing.style.stroke = `hsl(${hue}, 70%, 60%)`;
   }
   
@@ -166,13 +167,12 @@ class ScrollProgressIndicator {
       if (savedTheme) {
         this.setTheme(savedTheme);
       } else {
-        // Default to dark theme or system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        this.setTheme(prefersDark ? 'dark' : 'light');
+        // Default to light theme
+        this.setTheme('light');
       }
     } catch (e) {
-      // Default to dark theme if localStorage is not available
-      this.setTheme('dark');
+      // Default to light theme if localStorage is not available
+      this.setTheme('light');
     }
   }
 }
