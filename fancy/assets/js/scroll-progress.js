@@ -88,31 +88,47 @@ class ScrollProgressIndicator {
     this.progressRing.style.strokeDashoffset = offset;
     
     // Add extra animation effects based on scroll speed
-    this.animatePrinterBasedOnScroll(scrollPercentage);
+    this.animateBenchyBasedOnScroll(scrollPercentage);
   }
   
-  animatePrinterBasedOnScroll(percentage) {
-    const printerBody = document.querySelector('.printer-body');
-    const filamentLine = document.querySelector('.filament-line');
-    const printedObject = document.querySelector('.printed-object');
+  animateBenchyBasedOnScroll(percentage) {
+    const benchyHull = document.querySelector('.benchy-hull');
+    const hullInfill = document.querySelector('.hull-infill');
+    const chimneyBridge = document.querySelector('.chimney-bridge');
+    const waterRipples = document.querySelector('.water-ripples');
     
-    if (!printerBody || !filamentLine || !printedObject) return;
+    if (!benchyHull || !hullInfill || !chimneyBridge || !waterRipples) return;
     
-    // Adjust animation speed based on scroll percentage
-    const animationSpeed = Math.max(0.5, 2 - (percentage / 50));
-    printerBody.style.animationDuration = `${animationSpeed}s`;
+    // Phase 1: Early scroll (0-40%) - Hull infill becomes visible
+    if (percentage <= 40) {
+      const infillOpacity = Math.min(0.8, percentage / 40 * 0.8);
+      hullInfill.style.opacity = infillOpacity;
+      hullInfill.style.animation = `infillPattern ${Math.max(1, 3 - percentage / 20)}s ease-in-out infinite`;
+    }
     
-    // Make filament more active when scrolling more
-    const filamentHeight = Math.min(15, 8 + (percentage / 10));
-    filamentLine.style.setProperty('--filament-height', `${filamentHeight}px`);
+    // Phase 2: Mid scroll (40-80%) - Chimney bridge printing
+    if (percentage > 40 && percentage <= 80) {
+      const bridgeProgress = (percentage - 40) / 40;
+      chimneyBridge.style.width = `${bridgeProgress * 8}px`;
+      chimneyBridge.style.opacity = Math.min(1, bridgeProgress * 2);
+    }
     
-    // Grow the printed object based on scroll progress
-    const objectHeight = Math.min(8, (percentage / 100) * 8);
-    printedObject.style.height = `${objectHeight}px`;
+    // Phase 3: Late scroll (80-100%) - Gentle bobbing motion
+    if (percentage > 80) {
+      const bobIntensity = (percentage - 80) / 20;
+      benchyHull.style.animation = `benchyBob ${Math.max(2, 4 - bobIntensity * 2)}s ease-in-out infinite`;
+      waterRipples.style.opacity = Math.min(0.8, 0.3 + bobIntensity * 0.5);
+    } else {
+      benchyHull.style.animation = 'none';
+    }
     
-    // Add subtle color changes based on progress
-    const hue = 200 + (percentage * 1.6); // Blue to cyan transition for light mode
-    this.progressRing.style.stroke = `hsl(${hue}, 70%, 60%)`;
+    // Continuous water ripple adjustment based on scroll speed
+    const rippleSpeed = Math.max(2, 4 - (percentage / 25));
+    waterRipples.style.animationDuration = `${rippleSpeed}s`;
+    
+    // Enhanced progress ring color transition for Benchy theme
+    const hue = 200 + (percentage * 1.2); // Blue to cyan with subtle shift
+    this.progressRing.style.stroke = `hsl(${hue}, 70%, ${60 + percentage * 0.2}%)`;
   }
   
   setupThemeToggle() {
@@ -301,7 +317,7 @@ function initializeFancyVariant() {
     });
   });
   
-  console.log('🖨️ Fancy variant with 3D printing scroll progress initialized!');
+  console.log('⛵ Fancy variant with 3D Benchy scroll progress initialized!');
 }
 
 // Initialize when DOM is ready

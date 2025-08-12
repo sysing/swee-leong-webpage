@@ -1,16 +1,20 @@
-# Fancy Variant - 3D Printing Scroll Progress Indicator
+# Fancy Variant - 3D Benchy Scroll Progress Indicator
 
-This directory contains the "fancy" variant of the Swee Leong webpage featuring an interactive scroll progress indicator with 3D printing-themed animations.
+This directory contains the "fancy" variant of the Swee Leong webpage featuring an interactive scroll progress indicator with a modern 3D Benchy-themed animation.
 
 ## Features
 
 - **Circular Progress Ring**: Visual scroll progress indicator without percentage text
-- **Enhanced 3D Printing Animation**: Detailed printer with moving head, filament feed, and growing printed object
-- **Light Mode Default**: Clean light mode appearance with dark mode toggle support
-- **Scroll-Based Object Printing**: Printed object grows progressively as user scrolls through content
-- **Smooth Interactions**: Optimized animations and hover effects with scroll-responsive animation speeds
+- **3D Benchy Animation**: Modern interpretation of the iconic 3D printing test object
+  - **Hull Infill Effect**: Translucent infill pattern visible during early scroll (0-40%)
+  - **Chimney Bridge Printing**: Progressive "printing" of the chimney bridge during mid-scroll (40-80%)
+  - **Gentle Bobbing Motion**: Subtle boat-like movement when scroll reaches completion (80-100%)
+- **Enhanced Dark Mode Support**: Improved visibility and contrast in both light and dark modes
+- **Light Mode Default**: Clean light mode appearance with seamless dark mode toggle
+- **Scroll-Responsive Animation**: Animation phases change based on scroll progress
+- **Smooth Interactions**: Optimized animations and hover effects with enhanced visual feedback
 - **Accessibility**: Keyboard navigation support and proper ARIA labels
-- **Responsive Design**: Adapts to different screen sizes
+- **Responsive Design**: Adapts to different screen sizes with mobile-optimized Benchy design
 
 ## File Structure
 
@@ -24,43 +28,47 @@ fancy/
 │       └── scroll-progress.js   # JavaScript functionality
 ```
 
-## Customizing the 3D Printing Animation
+## Customizing the 3D Benchy Animation
 
 ### Animation Parameters
 
-The 3D printing animation can be customized by modifying CSS variables and animation properties in `assets/css/styles.css`:
+The 3D Benchy animation can be customized by modifying CSS variables and animation properties in `assets/css/styles.css`:
 
 #### Colors
 ```css
 :root {
-  --printer-color: #7c3aed;     /* Main printer body color */
-  --filament-color: #f59e0b;    /* Filament line color */
-  --progress-fill: #66d9e8;     /* Progress ring color */
+  --benchy-primary: #7c3aed;     /* Main Benchy hull and cabin color */
+  --benchy-secondary: #0ea5e9;   /* Infill pattern and outlines */
+  --benchy-accent: #f59e0b;      /* Chimney bridge accent color */
 }
 ```
 
-#### Animation Timing
+#### Animation Phases
 ```css
-/* Printer body pulsing */
-@keyframes printerPulse {
-  /* Modify timing and scale values */
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+/* Hull infill pattern visibility */
+@keyframes infillPattern {
+  0%, 100% { opacity: 0; transform: translateX(0); }
+  50% { opacity: 0.7; transform: translateX(2px); }
 }
 
-/* Printer head movement */
-@keyframes printerHead {
-  /* Adjust movement distance */
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(4px); }
-  75% { transform: translateX(-4px); }
+/* Gentle bobbing motion for completion */
+@keyframes benchyBob {
+  0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+  25% { transform: translate(-50%, -50%) rotate(1deg); }
+  75% { transform: translate(-50%, -50%) rotate(-1deg); }
 }
 
-/* Filament feeding effect */
-@keyframes filamentFeed {
-  /* Control filament height and opacity */
-  0%, 100% { height: 0; opacity: 1; }
-  50% { height: 12px; opacity: 0.8; }
+/* Water ripple effects */
+@keyframes waterRipples {
+  0%, 100% { transform: scaleX(1); opacity: 0.3; }
+  50% { transform: scaleX(1.2); opacity: 0.6; }
+}
+
+/* Chimney bridge progressive printing */
+@keyframes chimneyPrint {
+  0% { width: 0; opacity: 0; }
+  50% { opacity: 1; }
+  100% { width: 8px; opacity: 1; }
 }
 ```
 
@@ -73,7 +81,7 @@ The 3D printing animation can be customized by modifying CSS variables and anima
   height: 80px;
 }
 
-.printer-animation {
+.benchy-animation {
   width: 32px;
   height: 32px;
 }
@@ -87,7 +95,7 @@ The 3D printing animation can be customized by modifying CSS variables and anima
     height: 60px;
   }
   
-  .printer-animation {
+  .benchy-animation {
     width: 24px;
     height: 24px;
   }
@@ -96,46 +104,79 @@ The 3D printing animation can be customized by modifying CSS variables and anima
 
 ### Advanced Customizations
 
-#### 1. Change Animation Speed Based on Scroll
-The JavaScript in `scroll-progress.js` includes dynamic animation speed adjustment:
+#### 1. Change Animation Phases Based on Scroll
+The JavaScript in `scroll-progress.js` includes dynamic animation control with three distinct phases:
 
 ```javascript
-// In animatePrinterBasedOnScroll() function
-const animationSpeed = Math.max(0.5, 2 - (percentage / 50));
-printerBody.style.animationDuration = `${animationSpeed}s`;
+// In animateBenchyBasedOnScroll() function
+// Phase 1: Early scroll (0-40%) - Hull infill becomes visible
+if (percentage <= 40) {
+  const infillOpacity = Math.min(0.8, percentage / 40 * 0.8);
+  hullInfill.style.opacity = infillOpacity;
+}
+
+// Phase 2: Mid scroll (40-80%) - Chimney bridge printing
+if (percentage > 40 && percentage <= 80) {
+  const bridgeProgress = (percentage - 40) / 40;
+  chimneyBridge.style.width = `${bridgeProgress * 8}px`;
+}
+
+// Phase 3: Late scroll (80-100%) - Gentle bobbing motion
+if (percentage > 80) {
+  benchyHull.style.animation = `benchyBob ${Math.max(2, 4 - bobIntensity * 2)}s ease-in-out infinite`;
+}
 ```
 
-#### 2. Add New Animation Elements
-To add more 3D printing elements, modify the HTML structure in `index.html`:
+#### 2. Add New Benchy Elements
+To add more 3D Benchy details, modify the HTML structure in `index.html`:
 
 ```html
-<div class="printer-animation">
-  <div class="printer-body">
-    <div class="printer-head"></div>
-    <div class="filament-line"></div>
+<div class="benchy-animation">
+  <div class="benchy-hull">
+    <div class="hull-infill"></div>
+    <div class="hull-outline"></div>
   </div>
-  <div class="build-platform">
-    <div class="printed-object"></div>
+  <div class="benchy-cabin">
+    <div class="cabin-walls"></div>
+    <div class="cabin-roof"></div>
+  </div>
+  <div class="benchy-chimney">
+    <div class="chimney-base"></div>
+    <div class="chimney-bridge"></div>
   </div>
   <!-- Add new elements here -->
-  <div class="extruder-nozzle"></div>
+  <div class="benchy-details">
+    <div class="port-holes"></div>
+    <div class="bow-details"></div>
+  </div>
+  <div class="water-base">
+    <div class="water-ripples"></div>
+  </div>
 </div>
 ```
 
 Then add corresponding CSS animations in `styles.css`.
 
-#### 3. Custom Progress Ring Effects
-Modify the progress ring appearance:
+#### 3. Enhanced Dark Mode Support
+The progress indicator now has improved visibility in both themes:
 
 ```css
-.progress-ring-progress {
-  /* Add custom stroke effects */
-  filter: drop-shadow(0 0 8px rgba(102, 217, 232, 0.3));
-  
-  /* Custom stroke patterns */
-  stroke-dasharray: 226.19; /* For smooth ring */
-  /* or */
-  stroke-dasharray: 10, 5;  /* For dashed ring */
+/* Light mode colors */
+:root {
+  --progress-bg: rgba(0, 0, 0, 0.15);
+  --progress-fill: #0ea5e9;
+  --benchy-primary: #7c3aed;
+  --benchy-secondary: #0ea5e9;
+  --benchy-accent: #f59e0b;
+}
+
+/* Dark mode colors */
+[data-theme="dark"] {
+  --progress-bg: rgba(255, 255, 255, 0.2);
+  --progress-fill: #66d9e8;
+  --benchy-primary: #a78bfa;
+  --benchy-secondary: #66d9e8;
+  --benchy-accent: #fbbf24;
 }
 ```
 

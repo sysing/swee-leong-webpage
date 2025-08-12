@@ -12,10 +12,11 @@
   --border: #e2e8f0;
   
   /* Progress indicator colors for light mode */
-  --progress-bg: rgba(0, 0, 0, 0.1);
+  --progress-bg: rgba(0, 0, 0, 0.15);
   --progress-fill: #0ea5e9;
-  --printer-color: #7c3aed;
-  --filament-color: #f59e0b;
+  --benchy-primary: #7c3aed;
+  --benchy-secondary: #0ea5e9;
+  --benchy-accent: #f59e0b;
 }
 
 /* Dark mode */
@@ -30,10 +31,11 @@
   --border: #1f2937;
   
   /* Progress indicator colors */
-  --progress-bg: rgba(255, 255, 255, 0.1);
+  --progress-bg: rgba(255, 255, 255, 0.2);
   --progress-fill: #66d9e8;
-  --printer-color: #7c3aed;
-  --filament-color: #f59e0b;
+  --benchy-primary: #a78bfa;
+  --benchy-secondary: #66d9e8;
+  --benchy-accent: #fbbf24;
 }
 
 * { box-sizing: border-box; }
@@ -323,8 +325,8 @@ h2 {
   filter: drop-shadow(0 0 8px rgba(102, 217, 232, 0.3));
 }
 
-/* 3D Printer Animation */
-.printer-animation {
+/* 3D Benchy Animation */
+.benchy-animation {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -333,104 +335,208 @@ h2 {
   height: 32px;
 }
 
-.printer-body {
+/* Benchy Hull */
+.benchy-hull {
   position: relative;
-  width: 20px;
-  height: 16px;
-  background: var(--printer-color);
-  border-radius: 2px;
-  margin: 0 auto;
-  animation: printerPulse 2s ease-in-out infinite;
-}
-
-.printer-head {
-  position: absolute;
-  top: -4px;
-  left: 2px;
-  width: 16px;
-  height: 6px;
-  background: linear-gradient(45deg, var(--printer-color), var(--accent));
-  border-radius: 2px;
-  animation: printerHead 3s ease-in-out infinite;
-}
-
-.filament-line {
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  width: 2px;
-  height: 0;
-  background: linear-gradient(to bottom, var(--filament-color), transparent);
-  transform: translateX(-50%);
-  animation: filamentFeed 2s ease-in-out infinite;
-  border-radius: 1px;
-}
-
-/* Build platform and printed object */
-.build-platform {
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
   width: 24px;
-  height: 4px;
-  background: linear-gradient(45deg, #374151, #6b7280);
-  border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  height: 12px;
+  margin: 8px auto 0;
+  transform-origin: center bottom;
 }
 
-.printed-object {
+.hull-outline {
   position: absolute;
-  top: -2px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--benchy-primary);
+  border-radius: 12px 12px 4px 4px;
+  opacity: 0.9;
+  border: 1px solid var(--benchy-secondary);
+}
+
+.hull-infill {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  height: 8px;
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    transparent 40%, 
+    var(--benchy-secondary) 45%, 
+    transparent 50%, 
+    transparent 90%, 
+    var(--benchy-secondary) 95%, 
+    transparent 100%);
+  border-radius: 10px 10px 2px 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: infillPattern 2s ease-in-out infinite;
+}
+
+/* Benchy Cabin */
+.benchy-cabin {
+  position: absolute;
+  top: 4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 12px;
-  height: 0;
-  background: linear-gradient(to top, var(--accent), var(--brand));
-  border-radius: 1px 1px 0 0;
-  transition: height 0.3s ease;
-  animation: objectGrowth 3s ease-in-out infinite;
+  width: 14px;
+  height: 8px;
+}
+
+.cabin-walls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: var(--benchy-primary);
+  border-radius: 2px 2px 0 0;
+  opacity: 0.8;
+  border: 1px solid var(--benchy-secondary);
+}
+
+.cabin-roof {
+  position: absolute;
+  top: -1px;
+  left: 1px;
+  right: 1px;
+  height: 3px;
+  background: linear-gradient(to bottom, var(--benchy-secondary), var(--benchy-primary));
+  border-radius: 2px;
+  opacity: 0.9;
+}
+
+/* Benchy Chimney */
+.benchy-chimney {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 6px;
+  height: 6px;
+}
+
+.chimney-base {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: var(--benchy-primary);
+  border-radius: 1px;
+  opacity: 0.8;
+  border: 1px solid var(--benchy-secondary);
+}
+
+.chimney-bridge {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--benchy-accent);
+  border-radius: 1px;
+  opacity: 0;
+  transition: width 0.4s ease, opacity 0.4s ease;
+}
+
+/* Water Base */
+.water-base {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  opacity: 0.6;
+}
+
+.water-ripples {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--benchy-secondary) 20%, 
+    transparent 40%, 
+    var(--benchy-secondary) 60%, 
+    transparent 80%, 
+    var(--benchy-secondary) 100%);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: waterRipples 3s ease-in-out infinite;
 }
 
 
-/* Animations */
-@keyframes printerPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+/* Benchy Animations */
+@keyframes infillPattern {
+  0%, 100% { 
+    opacity: 0;
+    transform: translateX(0);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: translateX(2px);
+  }
 }
 
-@keyframes printerHead {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(4px); }
-  75% { transform: translateX(-4px); }
+@keyframes waterRipples {
+  0%, 100% { 
+    transform: scaleX(1);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: scaleX(1.2);
+    opacity: 0.6;
+  }
 }
 
-@keyframes filamentFeed {
-  0%, 100% { height: 0; opacity: 1; }
-  50% { height: 12px; opacity: 0.8; }
+@keyframes benchyBob {
+  0%, 100% { 
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  25% { 
+    transform: translate(-50%, -50%) rotate(1deg);
+  }
+  75% { 
+    transform: translate(-50%, -50%) rotate(-1deg);
+  }
 }
 
-@keyframes objectGrowth {
-  0% { height: 0; opacity: 0.8; }
-  50% { height: 6px; opacity: 1; }
-  100% { height: 0; opacity: 0.8; }
+@keyframes chimneyPrint {
+  0% { 
+    width: 0;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% { 
+    width: 8px;
+    opacity: 1;
+  }
 }
 
 /* Hover effects for progress indicator */
-.scroll-progress-container:hover .printer-body {
-  animation-duration: 0.5s;
+.scroll-progress-container:hover .benchy-hull {
+  animation: benchyBob 2s ease-in-out infinite;
 }
 
-.scroll-progress-container:hover .printer-head {
+.scroll-progress-container:hover .hull-infill {
   animation-duration: 1s;
+  opacity: 0.8;
 }
 
-.scroll-progress-container:hover .filament-line {
-  animation-duration: 0.8s;
+.scroll-progress-container:hover .water-ripples {
+  animation-duration: 1.5s;
 }
 
-.scroll-progress-container:hover .printed-object {
-  animation-duration: 1.2s;
+.scroll-progress-container:hover .chimney-bridge {
+  animation: chimneyPrint 1s ease-in-out infinite alternate;
 }
 
 .scroll-progress-container:hover .progress-ring-progress {
@@ -454,28 +560,29 @@ h2 {
     height: 60px;
   }
   
-  .printer-animation {
+  .benchy-animation {
     width: 24px;
     height: 24px;
   }
   
-  .printer-body {
-    width: 16px;
-    height: 12px;
+  .benchy-hull {
+    width: 18px;
+    height: 9px;
   }
   
-  .printer-head {
-    width: 12px;
+  .benchy-cabin {
+    width: 10px;
+    height: 6px;
+  }
+  
+  .benchy-chimney {
+    width: 4px;
     height: 4px;
   }
   
-  .build-platform {
-    width: 18px;
-    height: 3px;
-  }
-  
-  .printed-object {
-    width: 9px;
+  .water-base {
+    width: 22px;
+    height: 2px;
   }
 }
 
