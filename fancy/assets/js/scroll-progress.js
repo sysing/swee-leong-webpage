@@ -1,134 +1,20 @@
 /**
- * Scroll Progress Indicator with 3D Printing Animation
+ * Dark Mode Toggle and Enhanced Scroll Animations
  * Features:
- * - Circular progress bar showing scroll percentage
- * - 3D printer animation that responds to scroll
- * - Light/dark mode toggle
+ * - Light/dark mode toggle with proper state management
  * - Smooth animations and interactions
+ * - Accessibility support
  */
 
-class ScrollProgressIndicator {
+class ThemeManager {
   constructor() {
-    this.progressContainer = document.getElementById('scroll-progress');
-    this.progressRing = document.querySelector('.progress-ring-progress');
     this.themeToggle = document.getElementById('theme-toggle');
-    
-    this.circumference = 2 * Math.PI * 36; // radius is 36
-    this.scrollThreshold = 100; // Show indicator after 100px scroll
-    
     this.init();
   }
   
   init() {
-    this.setupProgressRing();
-    this.setupEventListeners();
     this.setupThemeToggle();
     this.loadSavedTheme();
-  }
-  
-  setupProgressRing() {
-    // Set up the progress ring with full dasharray
-    this.progressRing.style.strokeDasharray = this.circumference;
-    this.progressRing.style.strokeDashoffset = this.circumference;
-  }
-  
-  setupEventListeners() {
-    // Throttled scroll listener for better performance
-    let ticking = false;
-    
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          this.updateProgress();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    });
-    
-    // Click to scroll to top
-    this.progressContainer.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-    
-    // Add keyboard accessibility
-    this.progressContainer.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      }
-    });
-    
-    // Make it focusable for accessibility
-    this.progressContainer.setAttribute('tabindex', '0');
-    this.progressContainer.setAttribute('role', 'button');
-    this.progressContainer.setAttribute('aria-label', 'Scroll to top');
-  }
-  
-  updateProgress() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercentage = (scrollTop / scrollHeight) * 100;
-    
-    // Show/hide the indicator based on scroll position
-    if (scrollTop > this.scrollThreshold) {
-      this.progressContainer.classList.add('visible');
-    } else {
-      this.progressContainer.classList.remove('visible');
-    }
-    
-    // Update progress ring
-    const offset = this.circumference - (scrollPercentage / 100) * this.circumference;
-    this.progressRing.style.strokeDashoffset = offset;
-    
-    // Add extra animation effects based on scroll speed
-    this.animateBenchyBasedOnScroll(scrollPercentage);
-  }
-  
-  animateBenchyBasedOnScroll(percentage) {
-    const benchyHull = document.querySelector('.benchy-hull');
-    const hullInfill = document.querySelector('.hull-infill');
-    const chimneyBridge = document.querySelector('.chimney-bridge');
-    const waterRipples = document.querySelector('.water-ripples');
-    
-    if (!benchyHull || !hullInfill || !chimneyBridge || !waterRipples) return;
-    
-    // Phase 1: Early scroll (0-40%) - Hull infill becomes visible
-    if (percentage <= 40) {
-      const infillOpacity = Math.min(0.8, percentage / 40 * 0.8);
-      hullInfill.style.opacity = infillOpacity;
-      hullInfill.style.animation = `infillPattern ${Math.max(1, 3 - percentage / 20)}s ease-in-out infinite`;
-    }
-    
-    // Phase 2: Mid scroll (40-80%) - Chimney bridge printing
-    if (percentage > 40 && percentage <= 80) {
-      const bridgeProgress = (percentage - 40) / 40;
-      chimneyBridge.style.width = `${bridgeProgress * 8}px`;
-      chimneyBridge.style.opacity = Math.min(1, bridgeProgress * 2);
-    }
-    
-    // Phase 3: Late scroll (80-100%) - Gentle bobbing motion
-    if (percentage > 80) {
-      const bobIntensity = (percentage - 80) / 20;
-      benchyHull.style.animation = `benchyBob ${Math.max(2, 4 - bobIntensity * 2)}s ease-in-out infinite`;
-      waterRipples.style.opacity = Math.min(0.8, 0.3 + bobIntensity * 0.5);
-    } else {
-      benchyHull.style.animation = 'none';
-    }
-    
-    // Continuous water ripple adjustment based on scroll speed
-    const rippleSpeed = Math.max(2, 4 - (percentage / 25));
-    waterRipples.style.animationDuration = `${rippleSpeed}s`;
-    
-    // Enhanced progress ring color transition for Benchy theme
-    const hue = 200 + (percentage * 1.2); // Blue to cyan with subtle shift
-    this.progressRing.style.stroke = `hsl(${hue}, 70%, ${60 + percentage * 0.2}%)`;
   }
   
   setupThemeToggle() {
@@ -159,7 +45,7 @@ class ScrollProgressIndicator {
       this.themeToggle.querySelector('.theme-icon').textContent = '☀️';
       this.themeToggle.setAttribute('aria-label', 'Switch to dark mode');
     } else {
-      document.body.removeAttribute('data-theme');
+      document.body.setAttribute('data-theme', 'dark');
       this.themeToggle.querySelector('.theme-icon').textContent = '🌙';
       this.themeToggle.setAttribute('aria-label', 'Switch to light mode');
     }
@@ -297,8 +183,8 @@ function addScrollAnimationStyles() {
 function initializeFancyVariant() {
   addScrollAnimationStyles();
   
-  // Initialize scroll progress indicator
-  new ScrollProgressIndicator();
+  // Initialize theme manager
+  new ThemeManager();
   
   // Initialize scroll animations
   new ScrollAnimations();
@@ -317,7 +203,7 @@ function initializeFancyVariant() {
     });
   });
   
-  console.log('⛵ Fancy variant with 3D Benchy scroll progress initialized!');
+  console.log('🎨 Fancy variant with dark mode theme toggle initialized!');
 }
 
 // Initialize when DOM is ready
